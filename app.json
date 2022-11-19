@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "my_favorite_cat",
+    "slug": "my_favorite_cat",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
