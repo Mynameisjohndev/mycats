@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   ActivityIndicator,
@@ -6,6 +6,7 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 import { useSelector, useDispatch } from "react-redux";
 
 import ListItem from "../../components/ListItem";
@@ -15,6 +16,8 @@ import { addToFavorite, loadCatsList } from "../../store/reducers/cats";
 
 const Home = () => {
   const dispatch = useDispatch<AppThunkDispatch>();
+  const [current, setCurrent] = useState(0);
+  const isCarrousel = useRef();
   const { cats, loadingCats } = useSelector(
     (state: RootState) => state.userList
   );
@@ -29,25 +32,67 @@ const Home = () => {
     console.log(index);
   };
 
+  const [data, setData] = useState([
+    { id: 1, name: "1" },
+    { id: 1, name: "1" },
+    { id: 3, name: "1" },
+    { id: 3, name: "1" },
+    { id: 3, name: "1" },
+    { id: 3, name: "1" },
+    { id: 3, name: "1" },
+    { id: 3, name: "1" },
+  ]);
+
   return (
     <Container>
       {loadingCats ? (
         <ActivityIndicator color="black" size="large" />
       ) : (
-        <FlatList
-          horizontal
-          scrollEventThrottle={16}
-          bounces={false}
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          ItemSeparatorComponent={() => <View style={{ marginRight: 10 }} />}
-          data={cats}
-          keyExtractor={(item, index) => String(index) + item}
-          renderItem={({ item }) => <ListItem cat={item} />}
-        />
+        <View style={{ height: 500, width: "100%" }}>
+          <Carousel
+            onSnapToItem={(index) => setCurrent(index)}
+            contentContainerStyle={{ marginTop: 100 }}
+            loop
+            autoplay
+            ref={isCarrousel}
+            autoplayDelay={3000}
+            autoplayInterval={3000}
+            alwaysBounceHorizontal
+            layout="default"
+            data={cats}
+            renderItem={({ item }) => <ListItem cat={item} />}
+            sliderWidth={width}
+            itemWidth={300}
+          />
+
+          {/* <Pagination
+            dotsLength={cats.length}
+            activeDotIndex={current}
+            carouselRef={isCarrousel}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadiu: 10,
+              // marginHorizontal: 2,
+              backgroundColor: "#ccc",
+            }}
+          /> */}
+        </View>
+
+        // <FlatList
+        //   horizontal
+        //   scrollEventThrottle={16}
+        //   bounces={false}
+        //   contentContainerStyle={{
+        //     flexGrow: 1,
+        //     justifyContent: "center",
+        //     alignItems: "center",
+        //   }}
+        //   ItemSeparatorComponent={() => <View style={{ marginRight: 10 }} />}
+        //   data={cats}
+        //   keyExtractor={(item, index) => String(index) + item}
+        //   renderItem={({ item }) => <ListItem cat={item} />}
+        // />
       )}
     </Container>
   );
