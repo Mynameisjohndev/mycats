@@ -43,6 +43,8 @@ const catList = createSlice({
         );
       }
       state.favoriteCats = [...state.favoriteCats, payload];
+      const filterCats = state.cats.filter((item) => item.id !== payload.id);
+      state.cats = filterCats;
     },
   },
   extraReducers: (builder) => {
@@ -51,7 +53,6 @@ const catList = createSlice({
     });
     builder.addCase(loadCatsList.fulfilled, (state, action) => {
       state.cats = action.payload as Cat[];
-      // state.cats.pop();
       state.loadingCats = false;
     });
     builder.addCase(loadCatsList.rejected, (state, action) => {

@@ -5,14 +5,14 @@ export const ContainerListItem = styled.View<any>`
   background-color: ${({ theme }) => theme.COLORS.GREY50};
   justify-items: center;
   width: 300px;
-  height: 500px;
+  height: 530px;
   border-radius: 16px;
+  /* elevation: 10; */
+  border: 3px solid #ddd;
 `;
 export const ItemImage = styled.Image`
-  /* width: 100%; */
+  border-radius: 16px;
   height: 300px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
 `;
 
 export const ItemLabel = styled.Text`
@@ -28,4 +28,17 @@ export const ItemDetails = styled.View`
   padding: 16px;
   justify-content: center;
   align-items: flex-start;
+`;
+
+export const ItemLike = styled.TouchableOpacity`
+  /* width: 100%; */
+  /* top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  background-color: black;
+  border-radius: 30px;
+  padding: 16px;
+  margin: 16px;
+  position: absolute;
 `;
