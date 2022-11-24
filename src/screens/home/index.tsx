@@ -16,9 +16,8 @@ import { Cat } from "../../types/Cats";
 
 const Home = () => {
   const dispatch = useDispatch<AppThunkDispatch>();
-  const { paginatedCats, loadingCats, page } = useSelector(
-    (state: RootState) => state.userList
-  );
+  const { paginatedCats, loadingCats, page, startSize, endSize, quantity } =
+    useSelector((state: RootState) => state.userList);
 
   useEffect(() => {
     dispatch(loadCatsList());
@@ -37,8 +36,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(page);
-  }, [page]);
+    console.log(startSize, endSize, quantity);
+  }, [startSize]);
 
   return (
     <Container>

@@ -15,7 +15,8 @@ export type CatReducer = {
   loadingCats: boolean;
   quantity: number;
   page: number;
-  offset: number;
+  startSize: number;
+  endSize: number;
 };
 
 const initialState: CatReducer = {
@@ -25,7 +26,8 @@ const initialState: CatReducer = {
   loadingCats: false,
   quantity: 0,
   page: 1,
-  offset: 0,
+  startSize: 0,
+  endSize: 10,
 };
 
 export const loadCatsList = createAsyncThunk("get-all-cats", async (data) => {
@@ -42,23 +44,21 @@ const catList = createSlice({
   initialState,
   reducers: {
     nextPage(state) {
-      const { page, quantity, cats, offset } = state;
-      console.log(quantity);
-      // state.page += 1;
-      // state.paginatedCats = state.cats.slice(10, 20);
-
-      // if (page < quantity) {
-      //   state.page += 1;
-      //   state.offset += 10;
-      // }
+      const { page, cats, endSize, startSize } = state;
+      if (page < Math.ceil(cats.length / 10)) {
+        state.page += 1;
+        state.paginatedCats = cats.slice(startSize + 10, endSize + 10);
+        state.endSize += 10;
+        state.startSize += 10;
+      }
     },
     lastPage(state) {
-      // state.page -= 1;
-      const { page, cats, offset } = state;
-      if (page > 0) {
+      const { page, cats, endSize, startSize } = state;
+      if (page > 1) {
         state.page -= 1;
-        state.paginatedCats = cats.slice(offset, offset - 10);
-        state.offset -= 10;
+        state.paginatedCats = cats.slice(startSize - 10, endSize - 10);
+        state.endSize -= 10;
+        state.startSize -= 10;
       }
     },
     addToFavorite(state, { payload }: PayloadAction<Cat>) {
@@ -73,6 +73,7 @@ const catList = createSlice({
       state.favoriteCats = [...state.favoriteCats, payload];
       const filterCats = state.cats.filter((item) => item.id !== payload.id);
       state.cats = filterCats;
+      state.paginatedCats = filterCats;
     },
   },
   extraReducers: (builder) => {
@@ -80,11 +81,12 @@ const catList = createSlice({
       state.loadingCats = true;
     });
     builder.addCase(loadCatsList.fulfilled, (state, action) => {
-      const { cats, offset } = state;
+      const { startSize, endSize } = state;
       const receiveCats = action.payload as Cat[];
       state.cats = receiveCats;
       state.quantity = receiveCats.length;
-      state.paginatedCats = receiveCats.slice(offset, offset + 10);
+      state.paginatedCats = receiveCats.slice(startSize, endSize);
+
       state.loadingCats = false;
     });
     builder.addCase(loadCatsList.rejected, (state, action) => {
