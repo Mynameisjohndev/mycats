@@ -62,6 +62,7 @@ const catList = createSlice({
       }
     },
     addToFavorite(state, { payload }: PayloadAction<Cat>) {
+      const { cats, startSize, endSize } = state;
       const catExixsts = state.favoriteCats.find(
         (item) => item.id === payload.id
       );
@@ -72,8 +73,8 @@ const catList = createSlice({
       }
       state.favoriteCats = [...state.favoriteCats, payload];
       const filterCats = state.cats.filter((item) => item.id !== payload.id);
+      state.paginatedCats = filterCats.slice(startSize, endSize);
       state.cats = filterCats;
-      state.paginatedCats = filterCats;
     },
   },
   extraReducers: (builder) => {
