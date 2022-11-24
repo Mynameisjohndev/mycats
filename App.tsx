@@ -1,7 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from "react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 
+import "react-native-gesture-handler";
 import Home from "./src/screens/home";
 import store from "./src/store";
 import themes from "./src/themes";

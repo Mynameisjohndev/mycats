@@ -9,6 +9,7 @@ export const ContainerListItem = styled.View<any>`
   border-radius: 16px;
   /* elevation: 10; */
   border: 3px solid #ddd;
+  margin-right: 16px;
 `;
 export const ItemImage = styled.Image`
   border-radius: 16px;

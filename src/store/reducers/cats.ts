@@ -10,14 +10,22 @@ import { Cat } from "../../types/Cats";
 
 export type CatReducer = {
   cats: Cat[];
+  paginatedCats: Cat[];
   favoriteCats: Cat[];
   loadingCats: boolean;
+  quantity: number;
+  page: number;
+  offset: number;
 };
 
 const initialState: CatReducer = {
   cats: [],
+  paginatedCats: [],
   favoriteCats: [],
   loadingCats: false,
+  quantity: 0,
+  page: 1,
+  offset: 0,
 };
 
 export const loadCatsList = createAsyncThunk("get-all-cats", async (data) => {
@@ -33,6 +41,26 @@ const catList = createSlice({
   name: "cat_list",
   initialState,
   reducers: {
+    nextPage(state) {
+      const { page, quantity, cats, offset } = state;
+      console.log(quantity);
+      // state.page += 1;
+      // state.paginatedCats = state.cats.slice(10, 20);
+
+      // if (page < quantity) {
+      //   state.page += 1;
+      //   state.offset += 10;
+      // }
+    },
+    lastPage(state) {
+      // state.page -= 1;
+      const { page, cats, offset } = state;
+      if (page > 0) {
+        state.page -= 1;
+        state.paginatedCats = cats.slice(offset, offset - 10);
+        state.offset -= 10;
+      }
+    },
     addToFavorite(state, { payload }: PayloadAction<Cat>) {
       const catExixsts = state.favoriteCats.find(
         (item) => item.id === payload.id
@@ -52,7 +80,11 @@ const catList = createSlice({
       state.loadingCats = true;
     });
     builder.addCase(loadCatsList.fulfilled, (state, action) => {
-      state.cats = action.payload as Cat[];
+      const { cats, offset } = state;
+      const receiveCats = action.payload as Cat[];
+      state.cats = receiveCats;
+      state.quantity = receiveCats.length;
+      state.paginatedCats = receiveCats.slice(offset, offset + 10);
       state.loadingCats = false;
     });
     builder.addCase(loadCatsList.rejected, (state, action) => {
@@ -65,5 +97,5 @@ const catList = createSlice({
   },
 });
 
-export const { addToFavorite } = catList.actions;
+export const { addToFavorite, lastPage, nextPage } = catList.actions;
 export default catList.reducer;
