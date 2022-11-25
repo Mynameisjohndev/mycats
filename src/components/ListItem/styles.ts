@@ -32,11 +32,6 @@ export const ItemDetails = styled.View`
 `;
 
 export const ItemLike = styled.TouchableOpacity`
-  /* width: 100%; */
-  /* top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0; */
   background-color: black;
   border-radius: 30px;
   padding: 16px;

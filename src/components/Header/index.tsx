@@ -1,32 +1,21 @@
 import React from "react";
 
 import {
-  ContainerPaginator,
-  ContainerPaginatorButton,
-  ContainerPaginatorButtonText,
-  ContainerPaginatorPage,
+  HeaderTitle,
+  HeaderButtonText,
+  ContainerHeader,
+  HeaderButton,
 } from "./styles";
 
-interface IPaginator {
-  nextPage: () => void;
-  lestPage: () => void;
-  page: number;
-}
-
-const Paginator = ({ lestPage, nextPage, page }: IPaginator) => {
+const Header = () => {
   return (
-    <ContainerPaginator>
-      <ContainerPaginatorButton onPress={lestPage}>
-        <ContainerPaginatorButtonText> {"<"} </ContainerPaginatorButtonText>
-      </ContainerPaginatorButton>
-      <ContainerPaginatorPage>
-        <ContainerPaginatorButtonText>{page}</ContainerPaginatorButtonText>
-      </ContainerPaginatorPage>
-      <ContainerPaginatorButton onPress={nextPage}>
-        <ContainerPaginatorButtonText> {">"} </ContainerPaginatorButtonText>
-      </ContainerPaginatorButton>
-    </ContainerPaginator>
+    <ContainerHeader>
+      <HeaderTitle>Meus gatos ❤️</HeaderTitle>
+      <HeaderButton>
+        <HeaderButtonText>Favoritos</HeaderButtonText>
+      </HeaderButton>
+    </ContainerHeader>
   );
 };
 
-export { Paginator };
+export { Header };

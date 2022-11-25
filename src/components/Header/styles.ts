@@ -2,25 +2,33 @@ import styled from "styled-components/native";
 
 export const ContainerHeader = styled.View`
   width: 100%;
-  background-color: blue;
-  border-radius: 16px;
-  margin-top: 16px;
+  padding: 16px;
+  background-color: ${({ theme }) => theme.COLORS.GREY};
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `;
-export const ContainerHeaderButton = styled.TouchableOpacity`
+export const HeaderButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.COLORS.BLACK};
   width: 120px;
   height: 40px;
-  border-radius: 16px;
+  border-radius: 20px;
   margin: 6px;
   justify-content: center;
   align-items: center;
 `;
 
-export const ContainerPaginatorButtonText = styled.Text`
+export const HeaderButtonText = styled.Text`
   color: ${({ theme }) => theme.COLORS.WHITE};
-  font-size: 22px;
+  font-size: 17px;
+`;
+export const HeaderTitle = styled.Text`
+  color: ${({ theme }) => theme.COLORS.WHITE};
+  font-size: 20px;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
   font-weight: bold;
+  background-color: white;
+  border: 3px dashed red;
 `;

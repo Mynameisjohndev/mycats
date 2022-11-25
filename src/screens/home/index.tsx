@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
-import { View, ActivityIndicator, FlatList } from "react-native";
+import { ScrollView, ActivityIndicator } from "react-native";
+import Animated, { ZoomIn, ZoomOut, Layout } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 
+import { Header } from "../../components/Header";
 import ListItem from "../../components/ListItem";
 import { Paginator } from "../../components/Paginator";
 import { Container, Content } from "../../global/styles";
 import { AppThunkDispatch, RootState } from "../../store";
 import {
   addToFavorite,
-  loadCatsList,
   lastPage,
+  loadCatsList,
   nextPage,
 } from "../../store/reducers/cats";
 import { Cat } from "../../types/Cats";
 
-const Home = () => {
+export default function App() {
   const dispatch = useDispatch<AppThunkDispatch>();
   const { paginatedCats, loadingCats, page, startSize, endSize, quantity } =
     useSelector((state: RootState) => state.userList);
@@ -35,40 +37,39 @@ const Home = () => {
     dispatch(nextPage());
   };
 
-  useEffect(() => {
-    console.log(startSize, endSize, quantity);
-  }, [startSize]);
-
   return (
     <Container>
       {loadingCats ? (
         <ActivityIndicator color="black" size="large" />
       ) : (
         <Content>
-          <FlatList
-            horizontal
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            style={{
-              height: 550,
-              flexGrow: 0,
-            }}
+          <Header />
+          <ScrollView
+            style={{ flexGrow: 0 }}
             contentContainerStyle={{
               paddingHorizontal: 16,
               justifyContent: "center",
               alignItems: "center",
             }}
-            ItemSeparatorComponent={() => <View style={{ marginRight: 10 }} />}
-            data={paginatedCats}
-            keyExtractor={(item, index) => String(index) + item}
-            renderItem={({ item, index }) => (
-              <ListItem
-                index={index}
-                action={() => handleFavorite(item)}
-                cat={item}
-              />
-            )}
-          />
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            {paginatedCats.map((item) => {
+              return (
+                <Animated.View
+                  key={item.id}
+                  entering={ZoomIn.delay(300)}
+                  exiting={ZoomOut.delay(30)}
+                  layout={Layout.delay(200)}
+                  // entering={ZoomIn.delay(400)}
+                  // exiting={ZoomOut.delay(200)}
+                  // layout={Layout.delay(200)}
+                >
+                  <ListItem cat={item} action={() => handleFavorite(item)} />
+                </Animated.View>
+              );
+            })}
+          </ScrollView>
           <Paginator
             lestPage={() => handleLastPage()}
             nextPage={() => handlenextPage()}
@@ -78,6 +79,4 @@ const Home = () => {
       )}
     </Container>
   );
-};
-
-export default Home;
+}

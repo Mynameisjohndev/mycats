@@ -62,7 +62,7 @@ const catList = createSlice({
       }
     },
     addToFavorite(state, { payload }: PayloadAction<Cat>) {
-      const { cats, startSize, endSize } = state;
+      const { startSize, endSize } = state;
       const catExixsts = state.favoriteCats.find(
         (item) => item.id === payload.id
       );
