@@ -19,6 +19,11 @@ interface IListItem {
 
 const ListItem = ({ cat, action }: IListItem) => {
   const { id, image, name, temperament, description } = cat;
+
+  // const validIndexItem = () => {
+  //   if
+  // }
+
   return (
     <ContainerListItem>
       <ItemImage

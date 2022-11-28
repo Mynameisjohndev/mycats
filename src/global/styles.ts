@@ -10,8 +10,7 @@ export const Container = styled(SafeAreaView)`
   width: 100%;
 `;
 export const Content = styled.View`
-  background-color: ${({ theme }) => theme.COLORS.GREY10};
-  flex: 1;
+  background-color: ${({ theme }) => theme.COLORS.WHITE};
   justify-content: space-between;
   align-items: center;
   height: 100%;

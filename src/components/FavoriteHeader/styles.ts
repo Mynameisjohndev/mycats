@@ -5,22 +5,13 @@ export const ContainerHeader = styled.View`
   padding: 16px;
   background-color: ${({ theme }) => theme.COLORS.GREY};
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
 `;
 export const HeaderButton = styled.TouchableOpacity`
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
-  width: 120px;
-  height: 40px;
-  border-radius: 20px;
   margin: 6px;
   justify-content: center;
   align-items: center;
-`;
-
-export const HeaderButtonText = styled.Text`
-  color: ${({ theme }) => theme.COLORS.WHITE};
-  font-size: 17px;
 `;
 export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.COLORS.WHITE};
@@ -29,6 +20,4 @@ export const HeaderTitle = styled.Text`
   padding: 10px;
   text-align: center;
   font-weight: bold;
-  background-color: white;
-  border: 3px dashed red;
 `;

@@ -3,7 +3,7 @@ import { ScrollView, ActivityIndicator } from "react-native";
 import Animated, { ZoomIn, ZoomOut, Layout } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Header } from "../../components/Header";
+import { HomeHeader } from "../../components/HomeHeader";
 import ListItem from "../../components/ListItem";
 import { Paginator } from "../../components/Paginator";
 import { Container, Content } from "../../global/styles";
@@ -15,11 +15,13 @@ import {
   nextPage,
 } from "../../store/reducers/cats";
 import { Cat } from "../../types/Cats";
+import { HomeProps } from "../../types/StackRoutesProps";
 
-export default function App() {
+export default function Home({ navigation }: HomeProps) {
   const dispatch = useDispatch<AppThunkDispatch>();
-  const { paginatedCats, loadingCats, page, startSize, endSize, quantity } =
-    useSelector((state: RootState) => state.userList);
+  const { paginatedCats, loadingCats, page } = useSelector(
+    (state: RootState) => state.userList
+  );
 
   useEffect(() => {
     dispatch(loadCatsList());
@@ -37,13 +39,17 @@ export default function App() {
     dispatch(nextPage());
   };
 
+  const handleNavigateToFavorites = () => {
+    navigation.navigate("favorites");
+  };
+
   return (
     <Container>
       {loadingCats ? (
-        <ActivityIndicator color="black" size="large" />
+        <ActivityIndicator color="grey" size="large" />
       ) : (
         <Content>
-          <Header />
+          <HomeHeader goTo={handleNavigateToFavorites} />
           <ScrollView
             style={{ flexGrow: 0 }}
             contentContainerStyle={{
@@ -58,12 +64,12 @@ export default function App() {
               return (
                 <Animated.View
                   key={item.id}
-                  entering={ZoomIn.delay(300)}
-                  exiting={ZoomOut.delay(30)}
-                  layout={Layout.delay(200)}
-                  // entering={ZoomIn.delay(400)}
-                  // exiting={ZoomOut.delay(200)}
+                  // entering={ZoomIn.delay(300)}
+                  // exiting={ZoomOut.delay(30)}
                   // layout={Layout.delay(200)}
+                  entering={ZoomIn.delay(400)}
+                  exiting={ZoomOut.delay(200)}
+                  layout={Layout.delay(200)}
                 >
                   <ListItem cat={item} action={() => handleFavorite(item)} />
                 </Animated.View>
