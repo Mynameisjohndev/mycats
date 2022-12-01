@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Animated, { Layout, ZoomIn, ZoomOut } from "react-native-reanimated";

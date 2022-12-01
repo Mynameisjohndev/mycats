@@ -108,7 +108,6 @@ const catList = createSlice({
         favoriteStartSize,
         paginatedFavoritCats,
       } = state;
-      console.log(paginatedFavoritCats.length);
       if (favoritePage < Math.ceil(favoriteCats.length / 10)) {
         state.favoritePage += 1;
         state.paginatedFavoritCats = favoriteCats.slice(
@@ -133,6 +132,7 @@ const catList = createSlice({
       }
     },
     addToFavorite(state, { payload }: PayloadAction<Cat>) {
+      const { favoriteCats, favoriteEndSize, favoriteStartSize } = state;
       const catExixsts = state.favoriteCats.find(
         (item) => item.id === payload.id
       );
@@ -143,11 +143,13 @@ const catList = createSlice({
           `O gato ${payload.name} já esta em sua lista de favoritos.`
         );
       }
-      state.favoriteCats = [...state.favoriteCats, payload];
-      AsyncStorage.setItem(
-        "favorites_cats",
-        JSON.stringify(state.favoriteCats)
+      const newFavorites = [...state.favoriteCats, payload];
+      state.favoriteCats = newFavorites;
+      state.paginatedFavoritCats = state.favoriteCats.slice(
+        favoriteStartSize,
+        favoriteEndSize
       );
+      AsyncStorage.setItem("favorites_cats", JSON.stringify(newFavorites));
     },
   },
   extraReducers: (builder) => {
