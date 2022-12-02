@@ -139,7 +139,7 @@ const catList = createSlice({
 
       if (catExixsts) {
         return Alert.alert(
-          "Houve um erro!",
+          "Aconteceu um erro!",
           `O gato ${payload.name} já esta em sua lista de favoritos.`
         );
       }
